@@ -1,0 +1,118 @@
+#include "listvoidPointerModul.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    struct List mylist;
+    initializeList(&mylist);
+
+    int selection = -1;
+    int searchElement;
+    int position;
+    int decision;
+
+    do {
+        printf("=========================================\n");
+        printf("Choose one of the following orders:\n");
+        printf("=========================================\n");
+        printf("1: Check if the list is empty\n");
+        printf("2: Add a number to the list\n");
+        printf("3: Search a number in the list\n");
+        printf("4: Remove a number from the list\n");
+        printf("5: Print the list contents \n");
+        printf("6: Get value from the list \n");
+        printf("7: Delete the whole list\n");
+        printf("0: End the program\n");
+        printf("================================\n");
+        printf("Your choice: ");
+        scanf("%d", &selection);
+
+        if (selection < 0 || selection > 7) {
+            printf("Fatal error: Invalid choice\n");
+            break;
+        }
+
+        switch (selection) {
+
+            case 1:
+                //check if the list is empty
+                if (isEmpty(&mylist)) {
+                    printf("The list is empty\n");
+                } else {
+                    printf("The list is not empty\n");
+                }
+                break;
+
+            case 2:
+                //add numbers to the list
+                printf("Enter the number you want to add to the list: ");
+                int value;
+                scanf("%d", &value);
+                add(&mylist, (void*)&value);
+
+                printf("It is registered successfully. List contents: ");
+                printList(&mylist);
+
+                printf("List size: %zu\n", size(&mylist));
+                break;
+
+            case 3:
+                //Search a number in the list
+                printf("Enter the number you want to search: ");
+                scanf("%d", &searchElement);
+                position = contains(&mylist, (void *) &searchElement);
+                if (position != -1) {
+                    printf("%d found at position %d\n", searchElement, position);
+                } else {
+                    printf("%d not found in the list\n", searchElement);
+                }
+                break;
+
+            case 4:
+                //Remove a number from the list
+                printList(&mylist);
+                printf("Enter the position of the number you want to remove: \n");
+                scanf("%d", &position);
+                removeFrom(&mylist, position);
+                break;
+
+            case 5:
+                //print the list
+                printList(&mylist);
+                break;
+
+            case 6:
+                //get value from the list
+                printf("Enter the position to get: ");
+                scanf("%zu", &position);
+                if (position >= size(&mylist)) {
+                    printf("Invalid position. List size: %zu\n", size(&mylist));
+                } else {
+                    void* retrievedData = get(&mylist, position);
+                    printf("Data at position %zu: %p\n", position, retrievedData);
+                }
+                break;
+
+            case 7:
+                //delete the whole list
+                printf("The values will be gone forever. Are you sure you want to delete the list? \n");
+                printf("1: Yes\n");
+                printf("2: No \n");
+                scanf("%d", &decision);
+                if (decision < 1 || decision > 2) {
+                printf("Invalid choice\n");
+                break;
+                } else if (decision == 1) {
+                    freeList(&mylist);
+                    printf("The list is deleted successfully.\n");
+                } else {
+                    break;
+                }
+
+            default:
+                break;
+        }
+    } while (selection != 0);
+
+    return 0;
+}
