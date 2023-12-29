@@ -1,0 +1,122 @@
+#include "listvoidPointerModul.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+
+void initializeList(struct List* list) {
+    list->head = NULL; // Set the head of the list to NULL.
+    list->size = 0; // Set the size of the list to 0.
+}
+
+void add(struct List* list, void* value) {
+    // Allocate memory for a new node.
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        perror("Memory allocation error");
+        exit(EXIT_FAILURE);
+    }
+
+    newNode->data = value;
+    newNode->next = NULL;
+    // If the list is empty, set the head to the new node.
+    if (list->head == NULL) {
+        list->head = newNode;
+    } else {
+        // If the list is not empty, traverse to the end and append the new node.
+        struct Node* current = list->head;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = newNode;
+    }
+
+    list->size++;
+}
+
+// Get the value at the specified position in the list.
+void* get(const struct List* list, size_t position) {
+    if (position >= list->size) {
+        fprintf(stderr, "Error: Index out of bounds.\n");
+        exit(EXIT_FAILURE);
+    }
+    // Traverse the list to the specified position.
+    struct Node* current = list->head;
+    for (size_t i = 0; i < position; i++) {
+        current = current->next;
+    }
+
+    return current->data;       // Return the data at the specified position.
+}
+
+int contains(const struct List* list, void* value) { // Check if the list contains the given value and return its position.
+    struct Node* current = list->head;
+    int position = 0;
+
+    while (current != NULL) {
+        if (current->data == value) {
+            return position;
+        }
+        current = current->next;
+        position++;
+    }
+
+    return -1;
+}
+
+void removeFrom(struct List* list, size_t position) { // Remove the node at the specified position from the list.
+    if (position >= list->size) {
+        fprintf(stderr, "Error: Index out of bounds.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    struct Node* current = list->head;
+    struct Node* previous = NULL;
+
+    // Traverse the list to the specified position.
+    for (size_t i = 0; i < position; i++) {
+        previous = current;
+        current = current->next;
+    }
+    // Update the pointers to remove the node.
+    if (previous == NULL) {
+        list->head = current->next;
+    } else {
+        previous->next = current->next;
+    }
+
+    free(current);
+    list->size--;
+}
+
+int isEmpty(const struct List* list) {  // Check if the list is empty.
+    return list->size == 0;
+}
+
+size_t size(const struct List* list) {  // Get the size of the list.
+    return list->size;
+}
+
+void printList(const struct List* list) {       // Print the contents of the list.
+    struct Node* current = list->head;
+    printf("List contents: ");
+    while (current != NULL) {
+        printf("%d ",*((int *) current->data)); // Print the date for each node
+        current = current->next;
+    }
+
+    printf("\n");
+}
+
+void freeList(struct List* list) {      // Free the memory allocated for the list.
+    struct Node* current = list->head;
+    struct Node* next;
+
+    while (current != NULL) {           // Traverse the list and free the memory of each node.
+        next = current->next;
+        free(current);
+        current = next;
+    }
+
+    list->head = NULL;
+    list->size = 0;
+}
