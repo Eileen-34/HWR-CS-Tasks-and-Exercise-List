@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+int totalSubject;
+int totalMark;
+double averageMark;
+
+int main() {
+
+int mark [4];
+
+   int subject [4];
+    printf("Enter marks of each subjects (0-100): \n");
+
+   for(int i= 0; i < 4; i++) {
+       scanf("%d %d\n", &mark[i], &subject[i]);
+   }
+   totalSubject = subject[0] + subject[1] + subject[2] + subject[3];
+   totalMark = mark[0] + mark[1] + mark[2] + mark[3];
+
+    for(int i= 0; i < 4; i++) {
+       printf("%d %d\n", mark[i], subject[i]);
+    }
+    averageMark = (double)totalMark / totalSubject;
+    printf("Average Marks: %lf\n ", averageMark);
+
+   return 0;
+}
