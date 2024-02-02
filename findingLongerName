@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <string.h>
+
+
+int main() {
+char string[20];
+printf("\nEnter your name: ");
+fgets(string, sizeof (string), stdin);
+printf("\n Lenghth: %zu", strlen(string));
+
+char string1[20];
+printf("\n Enter your name: ");
+fgets(string1, sizeof (string1), stdin);
+printf("\n Lenghth: %zu", strlen(string1));
+
+
+if (string > string1) {
+    printf("\n Longer name: %s", string);
+} else {
+    printf("\nLonger name: %s", string1);
+}
+
+return 0;
+}
