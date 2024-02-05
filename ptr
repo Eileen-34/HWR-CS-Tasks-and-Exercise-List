@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+int main() {
+
+    double salary;
+    printf("Enter your monthly salary: ");
+    scanf("\n %lf", &salary);
+
+    double* ptr = &salary; //assigning the adress of salary to the double pointer
+    *ptr = salary; //assigning the value of the salary to the value stored in the pointer
+    printf("\n Your salary before change: % lf", *ptr);
+    *ptr = 2 * salary;
+    printf("\n Your new salary after the salary increase: %lf", *ptr);
+
+
+    return 0;
+}
