@@ -1,0 +1,22 @@
+ #include <stdio.h>
+
+int main() {
+
+int arr[5] = {34, 12, 21, 54, 48};
+    printf("First element in the array before change: %d\n", arr[0]);
+
+    int largest = *arr;
+
+    *arr = 65;
+    printf("Fist element in the array after the change: %d\n", *arr);
+
+    for(int i = 0; i < 5; i++) {
+
+        if (largest < *(arr + i) ) {
+            largest = *(arr + i);
+        }
+    }
+    printf("Largest number of the array: %d\n", largest);
+
+    return 0;
+}
